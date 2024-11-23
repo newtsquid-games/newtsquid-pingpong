@@ -1,0 +1,11 @@
+[gd_scene load_steps=2 format=3 uid="uid://b8smu855kbbhm"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hhhmj"]
+metallic = 1.0
+roughness = 0.28
+
+[node name="Ball" type="Node3D"]
+
+[node name="CSGSphere3D" type="CSGSphere3D" parent="."]
+radius = 0.25
+material = SubResource("StandardMaterial3D_hhhmj")

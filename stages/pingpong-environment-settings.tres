@@ -1,3 +1,15 @@
-[gd_resource type="Environment" format=3 uid="uid://dktyk5r37qak0"]
+[gd_resource type="Environment" load_steps=3 format=3 uid="uid://dktyk5r37qak0"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_sxjhx"]
+ground_bottom_color = Color(0.0590545, 0.0450471, 0.029574, 1)
+
+[sub_resource type="Sky" id="Sky_eo22m"]
+sky_material = SubResource("ProceduralSkyMaterial_sxjhx")
 
 [resource]
+background_mode = 2
+sky = SubResource("Sky_eo22m")
+reflected_light_source = 2
+ssao_enabled = true
+glow_enabled = true
+glow_bloom = 0.14
