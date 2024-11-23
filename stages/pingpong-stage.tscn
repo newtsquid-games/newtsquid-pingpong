@@ -1,3 +1,11 @@
-[gd_scene format=3 uid="uid://cxmo7gp8lhdcs"]
+[gd_scene load_steps=2 format=3 uid="uid://cxmo7gp8lhdcs"]
+
+[ext_resource type="Environment" uid="uid://dktyk5r37qak0" path="res://stages/pingpong-environment-settings.tres" id="1_fls30"]
 
 [node name="stage3d" type="Node3D"]
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 2.98023e-08, 1, 0, -1, 2.98023e-08, 0, 3, 0)
+environment = ExtResource("1_fls30")
+current = true
+fov = 50.0
