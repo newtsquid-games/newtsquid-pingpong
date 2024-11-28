@@ -1,0 +1,85 @@
+[gd_scene load_steps=3 format=3 uid="uid://dq8vtjimgmehf"]
+
+[ext_resource type="Script" path="res://objects/hud.gd" id="1_0n7wc"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_fwcf0"]
+font_size = 25
+font_color = Color(0, 0, 0, 1)
+
+[node name="Hud" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_0n7wc")
+
+[node name="RootScoreContainer" type="VBoxContainer" parent="."]
+custom_minimum_size = Vector2(500, 0)
+layout_mode = 1
+anchors_preset = -1
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="TotalScoreContainer" type="MarginContainer" parent="RootScoreContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 5
+
+[node name="ScoreDataContainer" type="HBoxContainer" parent="RootScoreContainer/TotalScoreContainer"]
+layout_direction = 2
+layout_mode = 2
+theme_override_constants/separation = 5
+
+[node name="ScoreContainer" type="HBoxContainer" parent="RootScoreContainer/TotalScoreContainer/ScoreDataContainer"]
+layout_mode = 2
+theme_override_constants/separation = 5
+
+[node name="ScoreDisplay" type="Label" parent="RootScoreContainer/TotalScoreContainer/ScoreDataContainer/ScoreContainer"]
+layout_direction = 2
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 1
+text = "Score: "
+label_settings = SubResource("LabelSettings_fwcf0")
+
+[node name="ScoreValue" type="Label" parent="RootScoreContainer/TotalScoreContainer/ScoreDataContainer/ScoreContainer"]
+layout_mode = 2
+size_flags_vertical = 1
+label_settings = SubResource("LabelSettings_fwcf0")
+
+[node name="IncrementValue" type="Label" parent="RootScoreContainer/TotalScoreContainer/ScoreDataContainer"]
+layout_mode = 2
+size_flags_vertical = 1
+theme_override_colors/font_color = Color(0, 0.596512, 0, 1)
+
+[node name="CollisionScoreContainer" type="MarginContainer" parent="RootScoreContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 90
+
+[node name="ScoreDataContainer" type="HBoxContainer" parent="RootScoreContainer/CollisionScoreContainer"]
+layout_direction = 2
+layout_mode = 2
+theme_override_constants/separation = 5
+
+[node name="ScoreContainer" type="HBoxContainer" parent="RootScoreContainer/CollisionScoreContainer/ScoreDataContainer"]
+layout_mode = 2
+theme_override_constants/separation = 5
+
+[node name="ScoreValue" type="Label" parent="RootScoreContainer/CollisionScoreContainer/ScoreDataContainer/ScoreContainer"]
+layout_mode = 2
+label_settings = SubResource("LabelSettings_fwcf0")
+
+[node name="MultiplierContainer" type="HBoxContainer" parent="RootScoreContainer/CollisionScoreContainer/ScoreDataContainer"]
+layout_mode = 2
+
+[node name="MultiplierLabel" type="Label" parent="RootScoreContainer/CollisionScoreContainer/ScoreDataContainer/MultiplierContainer"]
+layout_direction = 2
+layout_mode = 2
+text = "x"
+label_settings = SubResource("LabelSettings_fwcf0")
+
+[node name="MultiplierValue" type="Label" parent="RootScoreContainer/CollisionScoreContainer/ScoreDataContainer/MultiplierContainer"]
+layout_direction = 2
+layout_mode = 2
+label_settings = SubResource("LabelSettings_fwcf0")

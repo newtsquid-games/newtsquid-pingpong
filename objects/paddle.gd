@@ -12,8 +12,10 @@ enum direction {UP, DOWN, STATIONARY}
 @export var downInput := "MoveDown1"
 
 @export var range := 5
+
 func getPaddlePos():
 	return paddleObj.position
+	
 func _input(event):
 	if event.is_action(upInput)  && event.is_pressed():
 		currentState = direction.UP

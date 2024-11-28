@@ -1,6 +1,7 @@
-[gd_scene load_steps=10 format=3 uid="uid://cxmo7gp8lhdcs"]
+[gd_scene load_steps=11 format=3 uid="uid://cxmo7gp8lhdcs"]
 
 [ext_resource type="Environment" uid="uid://dktyk5r37qak0" path="res://stages/pingpong-environment-settings.tres" id="1_fls30"]
+[ext_resource type="PackedScene" uid="uid://dq8vtjimgmehf" path="res://objects/HUD.tscn" id="1_y4rbh"]
 [ext_resource type="CameraAttributesPhysical" uid="uid://385dlrwvkw0c" path="res://stages/camera_attributes_physical.tres" id="2_bcsde"]
 [ext_resource type="Compositor" uid="uid://dbqx7oyu0n1vq" path="res://stages/pingpong-compositor.tres" id="3_uvw57"]
 [ext_resource type="Texture2D" uid="uid://dha4lb3ntg0es" path="res://addons/kenney_prototype_textures/dark/texture_05.png" id="4_gfbhm"]
@@ -18,6 +19,10 @@ uv1_scale = Vector3(10, 10, 10)
 size = Vector2(10, 10)
 
 [node name="stage3d" type="Node3D"]
+
+[node name="Hud" parent="." instance=ExtResource("1_y4rbh")]
+offset_top = 1.0
+offset_bottom = 1.0
 
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 2.98023e-08, 1, 0, -1, 2.98023e-08, 0, 26, 1.19209e-07)
@@ -59,7 +64,6 @@ mesh = SubResource("PlaneMesh_ygv2b")
 paddleRadius = 1.25
 leftPaddle = NodePath("../PaddleRoot")
 rightPaddle = NodePath("../PaddleRoot2")
-ballspeed = 6.0
 
 [node name="PaddleRoot2" parent="." instance=ExtResource("6_duoq8")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.4, 0, 0)
@@ -70,3 +74,6 @@ downInput = "MoveDown2"
 [node name="PaddleRoot" parent="." instance=ExtResource("6_duoq8")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.4, 0, 0)
 paddleSpeed = 8
+
+[connection signal="paddle_collision" from="Ball" to="Hud" method="_on_ball_paddle_collision"]
+[connection signal="paddle_miss" from="Ball" to="Hud" method="_on_ball_paddle_miss"]
