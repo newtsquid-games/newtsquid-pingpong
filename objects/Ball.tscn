@@ -1,10 +1,13 @@
-[gd_scene load_steps=2 format=3 uid="uid://b8smu855kbbhm"]
+[gd_scene load_steps=3 format=3 uid="uid://b8smu855kbbhm"]
+
+[ext_resource type="Script" path="res://objects/ball.gd" id="1_0pplm"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hhhmj"]
 metallic = 1.0
 roughness = 0.28
 
 [node name="Ball" type="Node3D"]
+script = ExtResource("1_0pplm")
 
 [node name="CSGSphere3D" type="CSGSphere3D" parent="."]
 radius = 0.25
