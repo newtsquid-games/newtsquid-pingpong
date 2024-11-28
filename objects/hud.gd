@@ -10,8 +10,8 @@ extends Control
 @export var scoreMulti := 1
 @export var multiIncreaseInterval := 5
 
-@export var incrementDisplayTimeout := 1
-@onready var incrementDisplayTimer := Timer.new()
+@export var baseIncrementDisplayTimeout := 200
+@onready var incrementDisplayTimeout := baseIncrementDisplayTimeout
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -25,13 +25,19 @@ func addScore(scoreValue: int):
 	collisionScoreLabel.text = str(scoreValue)
 	multiplierLabel.text = str(scoreMulti)
 	incrementLabel.text = "+" + str(scoreIncrement)
+	incrementLabel.set_visible(true)
+	incrementDisplayTimeout = baseIncrementDisplayTimeout
 	
 	score += scoreIncrement
 	totalScoreLabel.text = str(score)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
-	pass
+	if (incrementLabel.is_visible_in_tree()):
+		incrementDisplayTimeout -= 1
+	
+	if (incrementDisplayTimeout <= 0):
+		incrementLabel.set_visible(false)
 
 
 func _on_ball_paddle_collision(collision_count) -> void:

@@ -7,6 +7,7 @@ enum direction {UP, DOWN, STATIONARY}
 @export var paddleSpeed := 1
 @export var bounds := 5.0
 @export var paddleRadius = 1.0
+@export var paddleColor : Color
 
 @export var upInput := "MoveUp1"
 @export var downInput := "MoveDown1"
@@ -17,7 +18,7 @@ func getPaddlePos():
 	return paddleObj.position
 	
 func _input(event):
-	if event.is_action(upInput)  && event.is_pressed():
+	if event.is_action(upInput) && event.is_pressed():
 		currentState = direction.UP
 	if event.is_action(downInput) && event.is_pressed():
 		currentState = direction.DOWN
@@ -29,7 +30,9 @@ func _input(event):
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	pass # Replace with function body.
+	var material = StandardMaterial3D.new()
+	material.albedo_color = paddleColor
+	paddleObj.material = material
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.

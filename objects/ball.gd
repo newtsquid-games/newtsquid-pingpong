@@ -18,13 +18,14 @@ extends Node3D
 
 @onready var me := $"."
 @onready var collisionCount := 0
-@onready var ballspeed := baseBallSpeed
+@onready var ballspeed := 0
 
 signal paddle_collision(collision_count)
 signal paddle_miss
 
 var rightBound := true
 var verticalVelocity := 0.5
+var pausedBallSpeed = 0
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -81,4 +82,16 @@ func _process(delta):
 	me.position.x += horizontalSpeed
 	me.position.z += verticalVelocity * delta * ballspeed
 	
-	
+func _on_main_menu_game_reset() -> void:
+	me.position = Vector3.ZERO
+	ballspeed = 0
+
+func _on_main_menu_game_resumed() -> void:
+	ballspeed = pausedBallSpeed
+
+func _on_main_menu_game_paused() -> void:
+	pausedBallSpeed = ballspeed
+	ballspeed = 0
+
+func _on_main_menu_game_started() -> void:
+	ballspeed = baseBallSpeed
