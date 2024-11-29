@@ -59,13 +59,13 @@ mesh = SubResource("PlaneMesh_ygv2b")
 paddleRadius = 1.25
 leftPaddle = NodePath("../PaddleRoot")
 rightPaddle = NodePath("../PaddleRoot2")
+margin = 0.2
+hitVelocityDamping = 0.35
 ballspeed = 6.0
 
 [node name="PaddleRoot2" parent="." instance=ExtResource("6_duoq8")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.4, 0, 0)
 paddleSpeed = 8
-upInput = "MoveUp2"
-downInput = "MoveDown2"
 
 [node name="PaddleRoot" parent="." instance=ExtResource("6_duoq8")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.4, 0, 0)

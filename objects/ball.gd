@@ -48,13 +48,13 @@ func collisionCheck():
 		print(left, right)
 		print(me.position)
 		#run if collide
-		if !rightBound && absf(left.z - me.position.z) < paddleRadius:
+		if me.position.x < 0 && !rightBound && absf(left.z - me.position.z) < paddleRadius:
 			verticalVelocity = lerp(-(left.z - me.position.z), verticalVelocity, hitVelocityDamping)
-			rightBound = !rightBound
+			rightBound = true
 			print("bounce rightbound!")
-		elif rightBound && absf(right.z - me.position.z) < paddleRadius:
+		elif me.position.x > 0 && rightBound && absf(right.z - me.position.z) < paddleRadius:
 			verticalVelocity = lerp(-(right.z - me.position.z), verticalVelocity, hitVelocityDamping)
-			rightBound = !rightBound
+			rightBound = false
 			print("bounce leftbound!")
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):

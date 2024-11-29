@@ -42,7 +42,7 @@ func _process(delta):
 		
 	paddleObj.position += travelVec
 	
-	var furthestDist = bounds
+	var furthestDist = bounds - paddleRadius
 	
 	paddleObj.position.z = min(paddleObj.position.z, furthestDist)
 	paddleObj.position.z = max(paddleObj.position.z, -furthestDist)
