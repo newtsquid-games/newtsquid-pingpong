@@ -31,11 +31,11 @@ func collisionCheck():
 	
 	var atLimit = false
 	
-	if me.position.z > bounds && verticalVelocity > 0:
-		verticalVelocity *= -1
+	if me.position.z > bounds - .15 && verticalVelocity > 0:
+		verticalVelocity *= -1.0
 	
-	if me.position.z < -bounds && verticalVelocity < 0:
-		verticalVelocity *= -1
+	if me.position.z < -bounds + .15 && verticalVelocity < 0:
+		verticalVelocity *= -1.0
 	
 	if(me.position.x > bounds && me.position.x < bounds + margin):
 		atLimit = true
@@ -47,23 +47,28 @@ func collisionCheck():
 		var right = rightPaddle.getPaddlePos()
 		print(left, right)
 		print(me.position)
+		
+		var leftOffset = left.z - me.position.z
+		var rightOffset = right.z - me.position.z
 		#run if collide
-		if me.position.x < 0 && !rightBound && absf(left.z - me.position.z) < paddleRadius:
-			verticalVelocity = lerp(-(left.z - me.position.z), verticalVelocity, hitVelocityDamping)
+		if me.position.x < 0 && !rightBound && absf(leftOffset) < paddleRadius:
+			verticalVelocity = lerp(-(leftOffset * 1.5 * leftOffset * leftOffset), verticalVelocity, hitVelocityDamping)
 			rightBound = true
 			print("bounce rightbound!")
-		elif me.position.x > 0 && rightBound && absf(right.z - me.position.z) < paddleRadius:
-			verticalVelocity = lerp(-(right.z - me.position.z), verticalVelocity, hitVelocityDamping)
+		elif me.position.x > 0 && rightBound && absf(rightOffset) < paddleRadius:
+			verticalVelocity = lerp(-(rightOffset * 1.5 * rightOffset * rightOffset), verticalVelocity, hitVelocityDamping)
 			rightBound = false
 			print("bounce leftbound!")
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	collisionCheck()
-	var horizontalSpeed = delta * ballspeed
+	var horizontalSpeed = 1.0
 	if(!rightBound):
-		horizontalSpeed *= -1
+		horizontalSpeed *= -1.0
 	
-	me.position.x += horizontalSpeed
-	me.position.z += verticalVelocity * delta * ballspeed
+	#me.position.x += horizontalSpeed * delta  * ballspeed
+	#me.position.z += verticalVelocity * delta * ballspeed
+	
+	me.position += Vector3(horizontalSpeed, 0, verticalVelocity).normalized() * delta * ballspeed
 	
 	

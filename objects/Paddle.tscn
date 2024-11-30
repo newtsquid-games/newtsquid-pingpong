@@ -1,9 +1,13 @@
-[gd_scene load_steps=2 format=3 uid="uid://631w3dc2kkc0"]
+[gd_scene load_steps=3 format=3 uid="uid://631w3dc2kkc0"]
 
 [ext_resource type="Script" path="res://objects/paddle.gd" id="1_hjem7"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_sjha5"]
+albedo_color = Color(0.396889, 0.396889, 0.396889, 1)
 
 [node name="PaddleRoot" type="Node3D"]
 script = ExtResource("1_hjem7")
 
 [node name="PaddleObject" type="CSGBox3D" parent="."]
-size = Vector3(0.25, 1, 2)
+material_override = SubResource("StandardMaterial3D_sjha5")
+size = Vector3(0.3, 0.5, 2)

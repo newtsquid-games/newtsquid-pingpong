@@ -1,3 +1,5 @@
 [gd_resource type="CameraAttributesPhysical" format=3 uid="uid://385dlrwvkw0c"]
 
 [resource]
+frustum_near = 0.004
+frustum_far = 92.12
