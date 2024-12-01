@@ -14,11 +14,11 @@ extends Node3D
 @export var resetBallInput := "ResetBall"
 
 @export var difficultyInterval := 5
-@export var ballSpeedIncrement := 0.01
+@export var ballSpeedIncrement := 1
 
 @onready var me := $"."
 @onready var collisionCount := 0
-@onready var ballspeed := 0
+@onready var ballspeed := 0.0
 
 signal paddle_collision(collision_count)
 signal paddle_miss
@@ -64,16 +64,18 @@ func collisionCheck():
 			rightBound = !rightBound
 			paddle_collision.emit(collisionCount)
 		else:
+			print("Speed reset")
 			collisionCount = 0
 			ballspeed = baseBallSpeed
 			paddle_miss.emit()
+			
+		if (collisionCount > 0 && collisionCount % difficultyInterval == 0):
+			ballspeed += ballSpeedIncrement
+			print(ballspeed)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	collisionCheck()
-	
-	if (collisionCount > 0 && collisionCount % difficultyInterval == 0):
-		ballspeed += ballSpeedIncrement
 	
 	var horizontalSpeed = delta * ballspeed
 	if(!rightBound):

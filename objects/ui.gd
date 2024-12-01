@@ -26,6 +26,7 @@ func _input(event):
 	if (event.is_action(openMenuInput) && event.is_pressed()):
 		game_paused.emit()
 		me.set_visible(true)
+		#get_tree().paused = true
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
@@ -40,6 +41,7 @@ func _on_start_button_button_up() -> void:
 func _on_resume_button_button_up() -> void:
 	me.set_visible(false)
 	game_resumed.emit()
+	#get_tree().paused = false
 
 func _on_reset_button_button_up() -> void:
 	startButton.set_disabled(false)
