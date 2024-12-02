@@ -90,4 +90,11 @@ func _physics_process(delta):
 	
 	me.position += getBallVelocity(delta)
 	
+	if(me.position.x < -bounds * 3):
+		rightPaddle.awardPoints(1)
+		reset()
+	elif(me.position.x > bounds * 3):
+		leftPaddle.awardPoints(1)
+		reset()
+	
 	

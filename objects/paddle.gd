@@ -3,6 +3,7 @@ extends Node3D
 enum direction {UP, DOWN, STATIONARY}
 
 @onready var ball = $"../Ball"
+@onready var me = $"."
 
 @onready var paddleObj = $PaddleObject
 @onready var currentState := direction.STATIONARY
@@ -18,10 +19,21 @@ enum direction {UP, DOWN, STATIONARY}
 
 @export var ai := false
 
+@export var scoreboard : Label3D
+
+@onready var paddleTargetZ = 0
+
 
 @onready var noise = FastNoiseLite.new()
 
 var verticalMotion := 0.25
+var score = 0
+
+func awardPoints(pointNum):
+	score += pointNum
+	scoreboard.text = str(score)
+	if scoreboard.text.length() < 2:
+		scoreboard.text = '0' + scoreboard.text
 
 func getPaddlePos():
 	return paddleObj.position
@@ -32,19 +44,6 @@ func _input(event):
 		
 		var windowsize = get_viewport().get_visible_rect().size
 		verticalMotion = (-((1.0-(event.position.x / windowsize.x)) - 0.5) + (event.position.y / windowsize.y) - 0.5)
-	#if event.is_action(upInput)  && event.is_pressed():
-		#currentState = direction.UP
-	#if event.is_action(downInput) && event.is_pressed():
-		#currentState = direction.DOWN
-		#
-	#if event.is_action(upInput) && currentState == direction.UP  && event.is_released():
-		#currentState = direction.STATIONARY
-	#if event.is_action(downInput) && currentState == direction.DOWN && event.is_released():
-		#currentState = direction.STATIONARY
-		
-	#if event is InputEventMouseMotion:
-		#print("Mouse Velocity at: ", event.velocity)
-		#verticalMotion += event.velocity.y
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -63,7 +62,8 @@ func _physics_process(delta):
 		
 	if ai:
 		var velocity = ball.getBallVelocity(.03)
-		var incoming = (velocity.x > 0) != (paddleObj.position.x > 0)
+		var incoming = ((velocity.x > 0) == (me.position.x > 0))
+		print(incoming)
 		
 		if incoming:
 			#var wobble = cos( Time.get_unix_time_from_system() * 3.0) * 0.05
@@ -72,7 +72,7 @@ func _physics_process(delta):
 			var wobble3 = cos( Time.get_unix_time_from_system() * 4.0) + 1
 			velocity.z += wobble2
 			verticalMotion = lerpf(verticalMotion, ((ball.position.z + wobble) / bounds) + velocity.z, delta * 3 + wobble3 * delta)
-			print(wobble)
+			#print(wobble)
 		else:
 			var randomPlace = (cos( Time.get_unix_time_from_system() * 2.1) * bounds)
 			verticalMotion = lerpf(verticalMotion, randomPlace, delta * 0.1)
@@ -80,13 +80,15 @@ func _physics_process(delta):
 	
 	
 		
-	paddleObj.position += travelVec
+	paddleTargetZ += travelVec.z
 	
 	var furthestDist = bounds - paddleRadius
 	if ai:
-		paddleObj.position.z = verticalMotion * bounds
+		paddleTargetZ = verticalMotion * bounds
 	else:
-		paddleObj.position.z = verticalMotion * bounds * 2.25
+		paddleTargetZ = verticalMotion * bounds * 2.25
+		
+	paddleObj.position.z = lerp(paddleObj.position.z, paddleTargetZ, .25)
 	
 	paddleObj.position.z = min(paddleObj.position.z, furthestDist) 
 	paddleObj.position.z = max(paddleObj.position.z, -furthestDist)

@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://cxmo7gp8lhdcs"]
+[gd_scene load_steps=12 format=3 uid="uid://cxmo7gp8lhdcs"]
 
 [ext_resource type="Environment" uid="uid://dktyk5r37qak0" path="res://stages/pingpong-environment-settings.tres" id="1_fls30"]
 [ext_resource type="CameraAttributesPhysical" uid="uid://385dlrwvkw0c" path="res://stages/camera_attributes_physical.tres" id="2_bcsde"]
@@ -6,6 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://dha4lb3ntg0es" path="res://addons/kenney_prototype_textures/dark/texture_05.png" id="4_gfbhm"]
 [ext_resource type="PackedScene" uid="uid://b8smu855kbbhm" path="res://objects/Ball.tscn" id="4_wl63h"]
 [ext_resource type="PackedScene" uid="uid://631w3dc2kkc0" path="res://objects/Paddle.tscn" id="6_duoq8"]
+[ext_resource type="FontFile" uid="uid://darmepo7hsvp" path="res://ui/Thunder-OpenType-PS/Thunder-ExtraBoldLC.otf" id="7_y8uo2"]
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_rvwfe"]
 size = Vector2(40, 40)
@@ -65,14 +66,17 @@ margin = 0.2
 hitVelocityDamping = 0.3
 ballspeed = 8.0
 
-[node name="RightPaddle" parent="." instance=ExtResource("6_duoq8")]
+[node name="RightPaddle" parent="." node_paths=PackedStringArray("scoreboard") instance=ExtResource("6_duoq8")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.4, -0.246142, 0)
 paddleSpeed = 8
 ai = true
+scoreboard = NodePath("../score-right")
 
-[node name="LeftPaddle" parent="." instance=ExtResource("6_duoq8")]
+[node name="LeftPaddle" parent="." node_paths=PackedStringArray("scoreboard") instance=ExtResource("6_duoq8")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.4, -0.246142, 0)
 paddleSpeed = 8
+ai = true
+scoreboard = NodePath("../score-left")
 
 [node name="Node3D" type="Node3D" parent="."]
 transform = Transform3D(0.906308, -0.178606, -0.383022, 0, 0.906308, -0.422618, 0.422618, 0.383022, 0.821394, 0, 0, 0)
@@ -85,3 +89,29 @@ compositor = ExtResource("3_uvw57")
 projection = 1
 current = true
 size = 13.184
+
+[node name="score-left" type="Label3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, -4.37895, -0.479639, 0.00942886)
+shaded = true
+modulate = Color(0.699653, 0.699653, 0.699653, 1)
+outline_modulate = Color(0, 0, 0, 0)
+text = "00
+"
+font = ExtResource("7_y8uo2")
+font_size = 1085
+outline_size = 0
+horizontal_alignment = 0
+vertical_alignment = 2
+
+[node name="score-right" type="Label3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 4.37786, -0.479639, 0.93635)
+shaded = true
+modulate = Color(0.699653, 0.699653, 0.699653, 1)
+outline_modulate = Color(0, 0, 0, 0)
+text = "00
+"
+font = ExtResource("7_y8uo2")
+font_size = 1085
+outline_size = 0
+horizontal_alignment = 2
+vertical_alignment = 0
