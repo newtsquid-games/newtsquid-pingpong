@@ -1,6 +1,7 @@
-[gd_scene load_steps=12 format=3 uid="uid://cxmo7gp8lhdcs"]
+[gd_scene load_steps=14 format=3 uid="uid://cxmo7gp8lhdcs"]
 
 [ext_resource type="PackedScene" uid="uid://deu1d71aj3bij" path="res://objects/UI.tscn" id="1_8xdtw"]
+[ext_resource type="Script" path="res://stages/gameState.gd" id="1_eom51"]
 [ext_resource type="Environment" uid="uid://dktyk5r37qak0" path="res://stages/pingpong-environment-settings.tres" id="1_fls30"]
 [ext_resource type="PackedScene" uid="uid://dq8vtjimgmehf" path="res://objects/HUD.tscn" id="1_y4rbh"]
 [ext_resource type="CameraAttributesPhysical" uid="uid://385dlrwvkw0c" path="res://stages/camera_attributes_physical.tres" id="2_bcsde"]
@@ -8,6 +9,7 @@
 [ext_resource type="Texture2D" uid="uid://dha4lb3ntg0es" path="res://addons/kenney_prototype_textures/dark/texture_05.png" id="4_gfbhm"]
 [ext_resource type="PackedScene" uid="uid://b8smu855kbbhm" path="res://objects/Ball.tscn" id="4_wl63h"]
 [ext_resource type="PackedScene" uid="uid://631w3dc2kkc0" path="res://objects/Paddle.tscn" id="6_duoq8"]
+[ext_resource type="PackedScene" uid="uid://bilvscy46r3k" path="res://objects/Barrier.tscn" id="7_j1pdd"]
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_rvwfe"]
 size = Vector2(20, 20)
@@ -19,9 +21,11 @@ uv1_scale = Vector3(10, 10, 10)
 [sub_resource type="PlaneMesh" id="PlaneMesh_ygv2b"]
 size = Vector2(10, 10)
 
-[node name="stage3d" type="Node3D"]
+[node name="PlaySpace" type="Node3D"]
+script = ExtResource("1_eom51")
 
 [node name="MainMenu" parent="." instance=ExtResource("1_8xdtw")]
+process_mode = 3
 gameTitle = "Ping of the Pong"
 
 [node name="Hud" parent="." instance=ExtResource("1_y4rbh")]
@@ -37,6 +41,32 @@ projection = 2
 current = true
 size = 0.02
 
+[node name="TopWall" parent="." instance=ExtResource("7_j1pdd")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -5.5)
+xAxisLength = 10.0
+yAxisLength = 1.0
+zAxisLength = 1.0
+
+[node name="BottomWall" parent="." instance=ExtResource("7_j1pdd")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 5.5)
+xAxisLength = 10.0
+yAxisLength = 1.0
+zAxisLength = 1.0
+
+[node name="LeftBoundary" parent="." instance=ExtResource("7_j1pdd")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 0, 0)
+deflectionType = 2
+xAxisLength = 1.0
+yAxisLength = 1.0
+zAxisLength = 50.0
+
+[node name="RightBoundary" parent="." instance=ExtResource("7_j1pdd")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0, 0)
+deflectionType = 2
+xAxisLength = 1.0
+yAxisLength = 1.0
+zAxisLength = 50.0
+
 [node name="stageEnvironment" type="Node3D" parent="."]
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="stageEnvironment"]
@@ -50,15 +80,16 @@ transform = Transform3D(0.707107, -0.353553, -0.612372, 0, 0.866025, -0.5, 0.707
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="stageEnvironment/Lighting"]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 10.9667, 0)
 shadow_enabled = true
+shadow_bias = 0.0
 
-[node name="ground" type="Node3D" parent="stageEnvironment"]
+[node name="Ground" type="Node3D" parent="stageEnvironment"]
 
-[node name="CSGMesh3D" type="CSGMesh3D" parent="stageEnvironment/ground"]
+[node name="CSGMesh3D" type="CSGMesh3D" parent="stageEnvironment/Ground"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
 use_collision = true
 mesh = SubResource("PlaneMesh_rvwfe")
 
-[node name="CSGMesh3D2" type="CSGMesh3D" parent="stageEnvironment/ground"]
+[node name="CSGMesh3D2" type="CSGMesh3D" parent="stageEnvironment/Ground"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.34417, 0)
 material_override = SubResource("StandardMaterial3D_c4qu8")
 use_collision = true
@@ -66,24 +97,28 @@ mesh = SubResource("PlaneMesh_ygv2b")
 
 [node name="Ball" parent="." node_paths=PackedStringArray("leftPaddle", "rightPaddle") instance=ExtResource("4_wl63h")]
 paddleRadius = 1.25
-leftPaddle = NodePath("../PaddleRoot")
-rightPaddle = NodePath("../PaddleRoot2")
+leftPaddle = NodePath("../PaddleLeft")
+rightPaddle = NodePath("../PaddleRight")
 
-[node name="PaddleRoot2" parent="." instance=ExtResource("6_duoq8")]
+[node name="PaddleRight" parent="." instance=ExtResource("6_duoq8")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.4, 0, 0)
 paddleSpeed = 8
 paddleColor = Color(0.971999, 0.179256, 0.311276, 1)
 upInput = "MoveUp2"
 downInput = "MoveDown2"
 
-[node name="PaddleRoot" parent="." instance=ExtResource("6_duoq8")]
+[node name="PaddleLeft" parent="." instance=ExtResource("6_duoq8")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.4, 0, 0)
 paddleSpeed = 8
 paddleColor = Color(0.114058, 0.465624, 0.892889, 1)
 
+[connection signal="reset_game_state" from="." to="Ball" method="_on_play_space_reset_game_state"]
 [connection signal="game_paused" from="MainMenu" to="Ball" method="_on_main_menu_game_paused"]
 [connection signal="game_reset" from="MainMenu" to="Ball" method="_on_main_menu_game_reset"]
 [connection signal="game_resumed" from="MainMenu" to="Ball" method="_on_main_menu_game_resumed"]
 [connection signal="game_started" from="MainMenu" to="Ball" method="_on_main_menu_game_started"]
+[connection signal="barrier_crossed" from="LeftBoundary" to="." method="_on_left_boundary_barrier_crossed"]
+[connection signal="barrier_crossed" from="RightBoundary" to="." method="_on_right_boundary_barrier_crossed"]
 [connection signal="paddle_collision" from="Ball" to="Hud" method="_on_ball_paddle_collision"]
 [connection signal="paddle_miss" from="Ball" to="Hud" method="_on_ball_paddle_miss"]
+[connection signal="paddle_collision" from="PaddleRight" to="." method="_on_paddle_right_paddle_collision"]

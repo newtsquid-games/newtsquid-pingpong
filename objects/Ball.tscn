@@ -1,14 +1,22 @@
-[gd_scene load_steps=3 format=3 uid="uid://b8smu855kbbhm"]
+[gd_scene load_steps=4 format=3 uid="uid://b8smu855kbbhm"]
 
-[ext_resource type="Script" path="res://objects/ball.gd" id="1_0pplm"]
+[ext_resource type="Script" path="res://objects/ball.gd" id="2_jses0"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hhhmj"]
 metallic = 1.0
 roughness = 0.28
 
-[node name="Ball" type="Node3D"]
-script = ExtResource("1_0pplm")
+[sub_resource type="SphereShape3D" id="SphereShape3D_1qvsg"]
+radius = 0.25
 
-[node name="CSGSphere3D" type="CSGSphere3D" parent="."]
+[node name="Ball" type="CSGSphere3D"]
 radius = 0.25
 material = SubResource("StandardMaterial3D_hhhmj")
+script = ExtResource("2_jses0")
+
+[node name="BallArea" type="Area3D" parent="."]
+
+[node name="BallShape" type="CollisionShape3D" parent="BallArea"]
+shape = SubResource("SphereShape3D_1qvsg")
+
+[connection signal="area_entered" from="BallArea" to="." method="_on_ball_area_area_entered"]

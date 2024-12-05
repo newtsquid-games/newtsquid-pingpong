@@ -1,21 +1,22 @@
-extends Node3D
+extends CSGBox3D
 
 enum direction {UP, DOWN, STATIONARY}
-@onready var paddleObj = $PaddleObject
+
 @onready var currentState := direction.STATIONARY
 
 @export var paddleSpeed := 1
 @export var bounds := 5.0
 @export var paddleRadius = 1.0
-@export var paddleColor : Color
+@export var paddleColor:Color
 
 @export var upInput := "MoveUp1"
 @export var downInput := "MoveDown1"
-
 @export var range := 5
 
+signal paddle_collision
+
 func getPaddlePos():
-	return paddleObj.position
+	return position
 	
 func _input(event):
 	if event.is_action(upInput) && event.is_pressed():
@@ -30,14 +31,13 @@ func _input(event):
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	var material = StandardMaterial3D.new()
-	material.albedo_color = paddleColor
-	paddleObj.material = material
+	var newMaterial = StandardMaterial3D.new()
+	newMaterial.albedo_color = paddleColor
+	material = newMaterial
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	
+func _physics_process(delta):
 	var travelVec := Vector3.ZERO
 	
 	if currentState == direction.DOWN:
@@ -45,10 +45,12 @@ func _process(delta):
 	if currentState == direction.UP:
 		travelVec.z = -delta * paddleSpeed
 		
-	paddleObj.position += travelVec
+	position += travelVec
 	
 	var furthestDist = bounds
 	
-	paddleObj.position.z = min(paddleObj.position.z, furthestDist)
-	paddleObj.position.z = max(paddleObj.position.z, -furthestDist)
-		
+	position.z = min(position.z, furthestDist)
+	position.z = max(position.z, -furthestDist)
+
+func _on_paddle_area_area_entered(area: Area3D) -> void:
+	paddle_collision.emit()

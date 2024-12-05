@@ -15,6 +15,12 @@ run/main_scene="res://stages/pingpong-stage.tscn"
 config/features=PackedStringArray("4.3", "GL Compatibility")
 config/icon="res://icon.svg"
 
+[global_group]
+
+Paddles=""
+Walls=""
+Boundaries=""
+
 [input]
 
 MoveUp1={
