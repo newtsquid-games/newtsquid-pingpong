@@ -8,4 +8,4 @@ func getDeflectionType() -> DeflectionType:
 	return DeflectionType.HORIZONTAL
 
 func getDeflectionVerticalVelocity(position: Vector3) -> float:
-	return abs(global_position.z - position.z)
+	return global_position.z - position.z

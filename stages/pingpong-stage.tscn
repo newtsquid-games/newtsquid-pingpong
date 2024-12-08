@@ -95,10 +95,7 @@ material_override = SubResource("StandardMaterial3D_c4qu8")
 use_collision = true
 mesh = SubResource("PlaneMesh_ygv2b")
 
-[node name="Ball" parent="." node_paths=PackedStringArray("leftPaddle", "rightPaddle") instance=ExtResource("4_wl63h")]
-paddleRadius = 1.25
-leftPaddle = NodePath("../PaddleLeft")
-rightPaddle = NodePath("../PaddleRight")
+[node name="Ball" parent="." instance=ExtResource("4_wl63h")]
 
 [node name="PaddleRight" parent="." instance=ExtResource("6_duoq8")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.4, 0, 0)
@@ -112,6 +109,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.4, 0, 0)
 paddleSpeed = 8
 paddleColor = Color(0.114058, 0.465624, 0.892889, 1)
 
+[connection signal="increase_difficulty" from="." to="Ball" method="_on_play_space_increase_difficulty"]
 [connection signal="reset_game_state" from="." to="Ball" method="_on_play_space_reset_game_state"]
 [connection signal="game_paused" from="MainMenu" to="Ball" method="_on_main_menu_game_paused"]
 [connection signal="game_reset" from="MainMenu" to="Ball" method="_on_main_menu_game_reset"]
@@ -119,6 +117,5 @@ paddleColor = Color(0.114058, 0.465624, 0.892889, 1)
 [connection signal="game_started" from="MainMenu" to="Ball" method="_on_main_menu_game_started"]
 [connection signal="barrier_crossed" from="LeftBoundary" to="." method="_on_left_boundary_barrier_crossed"]
 [connection signal="barrier_crossed" from="RightBoundary" to="." method="_on_right_boundary_barrier_crossed"]
-[connection signal="paddle_collision" from="Ball" to="Hud" method="_on_ball_paddle_collision"]
-[connection signal="paddle_miss" from="Ball" to="Hud" method="_on_ball_paddle_miss"]
 [connection signal="paddle_collision" from="PaddleRight" to="." method="_on_paddle_right_paddle_collision"]
+[connection signal="paddle_collision" from="PaddleLeft" to="." method="_on_paddle_left_paddle_collision"]

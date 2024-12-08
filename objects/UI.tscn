@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://objects/ui.gd" id="1_i6hki"]
 
-[node name="Canvas" type="CanvasLayer"]
+[node name="Menu" type="CanvasLayer"]
 script = ExtResource("1_i6hki")
 
 [node name="Panel" type="Panel" parent="."]

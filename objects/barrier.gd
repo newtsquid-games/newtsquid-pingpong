@@ -7,7 +7,7 @@ enum DeflectionType {VERTICAL, HORIZONTAL, NONE}
 @export var yAxisLength:float
 @export var zAxisLength:float
 
-@onready var collisionShape:CollisionShape3D = %CollisionShape3D
+@onready var collisionShape:CollisionShape3D = %BarrierShape
 
 signal barrier_crossed
 
